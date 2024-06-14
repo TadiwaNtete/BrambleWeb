@@ -1,0 +1,56 @@
+﻿@using Bramble.Framework.EnumeratedType
+@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+@using Bramble.Models.GenericModels
+
+@model UserModel
+
+<link rel="stylesheet" href="~/css/bramble-song-styles.css" asp-append-version="true" />
+
+<div class="main-page">
+	<div style="background-color: rgb(7,7,7); height: fit-content; width:fit-content; position:relative; left:154px; margin-top:50px;  padding-bottom:60px;">
+		<div class="bramble-form" id=brambleAccountPrompt>
+			<p> Welcome to Bramble!</p>
+			<p>If you have an account, you can...</p>
+			<input type="button" class="long-button" onclick="fnToggleForm(this, 'brambleLogInForm');" value="Login to your account" />
+			<p>If you don't, you can...</p>
+			<input type="button" class="long-button" style="margin-top:20px;" onclick="fnToggleForm(this, 'brambleRegisterForm');" value="Register a new account" />
+			<p>If you don't wanna do either, you can look to the right side of the screen, or...</p>
+			<input type="button" class="long-button" onclick="FnDirect('BrambleHome', 'Index');" value="Browse" />
+		</div>
+		<form class="bramble-form" id="brambleLogInForm" name="brambleLogInForm" role="form" method="get" asp-controller="Account" asp-action="LogInWithCredentials" hidden>
+			<p class="interactable-text" style="position:relative;">Log in to your Bramble Account</p>
+				<input type="text" name="UserName" id="UserName" required style="margin-top:8px;" placeholder="Username..." />
+				<br />
+				<input type="text" name="PasswordHash" id="PasswordHash" required style="margin-top:8px;" placeholder="Password..." />
+				<br />
+				<br />
+				<input type="button" class="long-button" id="submit-form" value="Login" />
+				<br />
+				<input type="button" class="long-button" style="margin-top:20px;" onclick="fnToggleForm(this, 'brambleRegisterForm');" value="Go to Register" />
+		</form>
+		<form class="bramble-form" id="brambleRegisterForm" name="brambleRegisterForm" role="form" method="post" asp-controller="Account" asp-action="UserRegistration" hidden>
+			<hr />
+			<p class="interactable-text" style="position:relative;">Register a new Bramble Account</p>
+				<input type="text" name="UserName" id="UserName" style="margin-top:8px;" required placeholder="Username..." />
+				<br />
+				<input type="text" name="PasswordHash" id="PasswordHash" style="margin-top:8px;" required placeholder="Password..." />
+				<br />
+				<input type="text" name="Email" id="PasswordHash" style="margin-top:8px;" required placeholder="Email.." />
+				<br />
+				<br />
+				<input type="button" class="long-button" id="submit-form" value="Register" />
+				<br />
+				<input type="button" class="long-button" style="margin-top:20px;" onclick="fnToggleForm(this, 'brambleLogInForm');" value="Go back to log in..." />
+		</form>
+	</div>
+
+</div>
+
+<!-- #region Success -->
+<!-- #endregion Success -->
+@section Scripts
+	{
+	<script src="~/Scripts/AccountScript.js" type="text/javascript"></script>
+	<script src="~/Scripts/CommonScript.js" type="text/javascript"></script>
+}

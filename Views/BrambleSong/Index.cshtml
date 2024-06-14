@@ -1,0 +1,61 @@
+﻿@using Bramble.Framework.EnumeratedType
+@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+
+@model BrambleSingleEntry
+
+<link rel="stylesheet" href="~/css/bramble-song-styles.css" asp-append-version="true" />
+
+<div class="main-page">
+
+	<div id="upload-box" class="upload-box">
+		<div id="upload-box-container">
+
+			<!-- #region Home -->
+				<p>Drag and Drop File, or...</p>
+			<button id="select-box" class="button-large" style="position:relative; bottom:100px;" onclick="document.getElementById('SONG_FILE').click();">
+					Select manually
+				</button>
+			<!-- #endregion Home -->
+
+		</div>
+	</div>
+
+	<div id="upload-box-fail" class="upload-box" hidden>
+		<div id="upload-box-container">
+
+			<!-- #region Fail -->
+				<p>Failed to upload audio, please try again.</p>
+			<button id="select-box" class="button-large" style="position:relative; bottom:100px;" onclick="document.getElementById('SONG_FILE').click();">
+					Select manually
+				</button>
+			<!-- #endregion Fail -->
+
+		</div>
+	</div>
+	<div id="upload-box-success" class="upload-box" hidden>
+		<div id="upload-box-container">
+
+			<!-- #region Success -->
+			<form class="upload-form" name="upload-form" id="upload-form">
+				<input type="text" name="SONG_NAME" placeholder="Title" />
+				<input type="text" name="SONG_AUTHOR" placeholder="Arist Name" />
+				<input type="text" name="SONG_DESCRIPTION" placeholder="Description" />
+				<input type="file" id="THUMBNAIL" name="THUMBNAIL" accept=".png, .jpeg, jpg" />
+				<input type="file" id="SONG_FILE" name="SONG_FILE" hidden accept=".mp3, .wav" select oninput="FnSuccessUpload();" />
+				<input type="submit" value="Save" onclick="FnUploadForm('upload-form', 'BrambleSong/UploadSongDetails');" />
+			</form>
+			<!-- #endregion Success -->
+
+		</div>
+	</div>
+</div>
+
+
+@section Scripts
+	{
+
+	<script src="~/Scripts/BrambleHomeScript.js" type="text/javascript"></script>
+	<script src="~/Scripts/CommonScript.js" type="text/javascript"></script>
+	<script src="~/Scripts/FileUploadScript.js" type="text/javascript"></script>
+}

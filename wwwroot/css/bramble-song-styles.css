@@ -1,0 +1,13 @@
+﻿textarea{
+    resize: vertical;
+    height: 80px;
+}
+.upload-form {
+    position: relative;
+}
+
+    .upload-form input {
+        margin-top: 30px;
+
+    }
+

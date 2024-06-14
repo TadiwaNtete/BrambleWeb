@@ -1,0 +1,1 @@
+﻿$('#homeSelection').load("/BrambleHome/RenderBrambleHomeSelection");

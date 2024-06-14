@@ -1,0 +1,132 @@
+﻿@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+@using Bramble.Framework.EnumeratedType
+
+@model SingleEntryResponseModel
+<link rel="stylesheet" href="~/css/player-styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/common-styles.css" asp-append-version="true" />
+
+@{
+	#region C# Data
+	var currentSong = Model.DataResponse.FirstOrDefault();
+	currentSong.SONG_GENRE = "JRock";
+	currentSong.SONG_ALBUM = "The WORLD Ruler";
+	#region	Info Parsing
+
+	#region	Constant Strings
+	var dateString = $@"Released on {currentSong.CREATED_DATE.ToLongDateString()}";
+	var genreString = string.IsNullOrEmpty(currentSong.SONG_GENRE) ?
+	string.Empty : $@"Genre: {currentSong.SONG_GENRE}";
+	var albumString = string.IsNullOrEmpty(currentSong.SONG_ALBUM) ?
+	string.Empty : $@"From the album {currentSong.SONG_ALBUM}";
+
+	#endregion
+
+	#region	Conditional Strings
+	var thirdLine = string.IsNullOrEmpty(albumString) ?
+	dateString : albumString;
+
+	var fourthLine = thirdLine.ToUpper().Contains("RELEASED".ToUpper()) ?
+	genreString : dateString;
+
+	var fifthLine = fourthLine.Equals(genreString) ?
+	string.Empty : genreString;
+
+	var songInfoList = new List<string>() { thirdLine, fourthLine, fifthLine };
+
+	#endregion
+
+	#endregion
+
+	#region	Description Parsing
+	var description = string.Empty;
+	currentSong.SONG_DESCRIPTION = "Kimi wa, boku ni se wo mukete, hosoku,";
+	if (!string.IsNullOrEmpty(currentSong.SONG_DESCRIPTION))
+	{
+		var descEndIndex = 0;
+		var descLength = currentSong.SONG_DESCRIPTION.Length;
+		if (currentSong.SONG_DESCRIPTION.Any(x => x.Equals(" ")))
+			if (currentSong.SONG_DESCRIPTION.LastIndexOf(" ", descLength - 1) <= 40)
+				descEndIndex = currentSong.SONG_DESCRIPTION.LastIndexOf(" ", descLength - 1);
+			else
+				descEndIndex = (descLength - (descLength - 40));
+		else
+			descEndIndex = (descLength - (descLength - 40));
+		description = descLength > 40 ?
+		(currentSong.SONG_DESCRIPTION.Remove(descEndIndex) + "...") : currentSong.SONG_DESCRIPTION;
+	}
+
+
+	#endregion
+
+	#endregion
+}
+
+<div class="info-bar" style=" text-align:left;">
+	<img class="img" style="width:300px; height:300px;" src="@Url.Content(currentSong.IMAGE_PATH)" />
+
+	<h4 style="font-size:20px; padding-top:8px; padding-bottom:12px;" class="info-text">@currentSong.SONG_NAME</h4>
+
+	<div class="info-bar-sub-box">
+		<h5 class="info-text">@currentSong.SONG_AUTHOR</h5>
+		<h6 class="info-text">6549831 Followers</h6>
+		<img class="img-small" src="@Url.Content(currentSong.IMAGE_PATH)" />
+		<button style="right:20px; position:absolute; top:6px;" class="button-very-small">Follow</button>
+	</div>
+	<div class="player-interactable-buttons" style="text-align:center;">
+		<img id="player-like-button" style="margin-left:10px; float:left;" role="button" src="@Url.Content(FileLocations.BrambleImageLocation + @FileLocations.BrambleLikeButton)" />
+		<img id="player-play-button" style="text-align:center;" role="button" src="@Url.Content(FileLocations.BrambleImageLocation + @FileLocations.BramblePauseButton)" />
+		<img id="player-share-button" style="margin-right:10px; float:right;" role="button" src="@Url.Content(FileLocations.BrambleImageLocation + @FileLocations.BrambleShareButton)" />
+	</div>
+
+
+
+	<div id="song-info-box" style="padding-bottom:20px;" class="song-info-box">
+
+		@for (int i = 0; i < songInfoList.Count(); i++)
+		{
+			if (!string.IsNullOrEmpty(songInfoList[i]))
+			{
+				if (i == 0)
+				{
+					<h6 style="color: rgb(128, 128, 128); padding-top:10px;">
+						@songInfoList[i] <br />
+					</h6>
+				}
+				else
+				{
+					<h6 style="color: rgb(128, 128, 128); padding-top:5px;">
+						@songInfoList[i] <br />
+					</h6>
+				}
+
+			}
+		}
+	</div>
+	<h6 style="color: rgb(128, 128, 128);">Description... </h6>
+	<div class="description-box" id="desc-box">
+		<h6 id="desc-text" style="color: rgb(128, 128, 128);padding-top:5px;">
+			@description
+		</h6>
+	</div>
+	<button id="view-desc-button" style="left:200px;position:relative; width:90px;" class="button-very-small" onclick="FnResizeDescBox($('#desc-text'), `@description`, `@currentSong.SONG_DESCRIPTION`);">Expand</button>
+	<div class="comment-area" id="comment-input-div"style="height:40px; margin-top:30px; position:relative; background-color: rgb(10, 10, 10);">
+		<input id="comment-input-box" type="text" style="width:280px; margin-left:10px;"
+			   placeholder="Write a comment..." />
+		<button id="comment-input-button" style="margin-top:10px;left:200px;position:relative; width:90px;" class="button-very-small">Comment</button>
+	</div>
+</div>
+
+<div class="mid-section" style="margin-left: 355px; text-align:center;">
+	<audio controls class="audio-one" src="@Url.Content(currentSong.SONG_PATH)"></audio>
+</div>
+
+<div class="info-bar song-vertical-scroll-list" id="recommended-song-list" style="margin-left:1305px;">
+</div>
+
+
+
+@section Scripts
+	{
+	<script src="~/Scripts/BramblePlayerScript.js" type="text/javascript"></script>
+	}

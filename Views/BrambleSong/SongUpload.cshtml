@@ -1,0 +1,62 @@
+﻿@using Bramble.Framework.EnumeratedType
+@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+@model BrambleSingleEntry
+
+@if (Model.Status == StatusConstants.Error)
+{
+	@switch (Model.Hierarchy)
+	{
+		case (HierarchyConstants.TOP):
+			<div id="upload-box" class="upload-box">
+				<p>Failed to upload audio, please try again.</p>
+				<p>Drag and Drop File, or...</p>
+				<button id="select-box" class="button-large" style="position:relative; bottom:100px;" onclick="document.getElementById('song-input-file').click();">
+					Select manually
+				</button>
+				<input type="file" id="song-input-file" hidden accept=".mp3, .wav" select oninput="FnUploadFile(this.id, 'BrambleSong/SongUpload');" />
+
+			</div>
+			break;
+
+		default:
+			<div id="upload-box" class="upload-box">
+				<p>Unknown error occurred, please try again.</p>
+				<p>Drag and Drop File, or...</p>
+				<button id="select-box" class="button-large" style="position:relative; bottom:100px;" onclick="document.getElementById('song-input-file').click();">
+					Select manually
+				</button>
+				<input type="file" id="song-input-file" hidden accept=".mp3, .wav" select oninput="FnUploadFile(this.id, 'BrambleSong/SongUpload');" />
+
+			</div>
+			break;
+	}
+}
+
+<!-- #endregion Error Return -->
+<!-- #region Success Return -->
+@if (Model.Status == StatusConstants.Success)
+{
+	if (Model != null)
+	{
+		switch (Model.Hierarchy)
+		{
+			case (HierarchyConstants.TOP):
+				<div id="upload-box" class="upload-box">
+					<form>
+						@Html.TextBoxFor(x=>x.SONG_NAME, new { @placeholder = "Title"})
+					</form>
+
+				</div>
+				break;
+		}
+	}
+}
+
+<!-- #endregion Success Return -->
+@section Scripts
+	{
+	<script src="Scripts\BrambleScript.js" type="text/javascript"></script>
+	<script src="Scripts\FileUploadScript.js" type="text/javascript"></script>
+	<script src="Scripts\BrambleSongScript.js" type="text/javascript"></script>
+}

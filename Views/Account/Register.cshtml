@@ -1,0 +1,36 @@
+﻿@using Bramble.Framework.EnumeratedType
+@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+@using Bramble.Models.GenericModels
+
+@model UserModel
+
+<link rel="stylesheet" href="~/css/bramble-song-styles.css" asp-append-version="true" />
+
+<input type="hidden" id="form-action" name="~/Account/UserRegistration" />
+
+<div class="main-page" style="text-align:center;">
+	<div class="form-container">
+		<form role="form" class="bramble-form" method="post" asp-controller="Account" asp-action="UserRegistration">
+
+			@Html.LabelFor(x=>x.UserName, new
+			{@class = "control-label"});
+			@Html.TextBoxFor(x=>x.UserName, new
+			{@placeholder = "Username", @class = "form-control", @required = true})
+
+			@Html.TextBoxFor(x=>x.PasswordHash, new
+			{@placeholder = "Password", @class = "form-control", @style="margin-top:30px;", @required = true})
+
+			@Html.TextBoxFor(x=>x.Email, new
+			{@placeholder = "Email", @class = "form-control", @style="margin-top:30px;", @required = true})
+
+			<input type="submit" id="submit-form" style="margin-top:10px; float:right;" value="Register" />
+		</form>
+	</div>
+</div>
+
+@section Scripts
+	{
+	<script src="~/Scripts/AccountScript.js" type="text/javascript"></script>
+	<script src="~/Scripts/CommonScript.js" type="text/javascript"></script>
+}

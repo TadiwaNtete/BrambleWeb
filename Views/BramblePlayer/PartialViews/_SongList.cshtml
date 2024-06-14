@@ -1,0 +1,35 @@
+﻿@using Bramble.Models.DataModels.ClassModels
+@using Bramble.Models.DataModels.DBModels
+
+@model SingleEntryResponseModel;
+
+<link rel="stylesheet" href="~/css/player-styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/common-styles.css" asp-append-version="true" />
+
+@{
+	var songEntryList = Model.DataResponse.Any() ?
+			Model.DataResponse : new List<BrambleSingleEntry>();
+}
+@if (!songEntryList.Any())
+{
+
+}
+<div class="info-bar song-vertical-scroll-list" id="recommended-song-list">
+			<br/>
+	@foreach (var singleEntry in songEntryList)
+	{
+		#region	Constant Strings
+		var thirdLineString = "45912899 views";
+		#endregion
+		<div class="entry-rec-info" style="margin-bottom:20px;">
+
+		<h5>@singleEntry.SONG_NAME</h5>
+			<h6 style ="padding-top:7px;">@singleEntry.SONG_AUTHOR</h6>
+			<h6 style="padding-top:7px;"> @thirdLineString</h6>
+			<h6 style="padding-top:5px;"> @singleEntry.CREATED_DATE.ToLongDateString()</h6>
+			<img src="@Url.Content(singleEntry.IMAGE_PATH)" />
+		</div>
+
+	}
+</div>
+
